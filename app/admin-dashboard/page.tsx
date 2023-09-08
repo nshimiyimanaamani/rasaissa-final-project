@@ -1,18 +1,18 @@
-'use client';
+import BarChart from "./components/BarChart";
+import Recents from "./components/Recents";
+import TopCards from "./components/TopCards";
+import Layout from "./layouts/LayoutWithSidebar";
 
-import clsx from "clsx";
-
-import EmptyState from "../components/EmptyState";
-
-const Home = () => {
-
+export default function MyApp({}) {
   return (
-    <div className={clsx(
-      'lg:pl-80 h-full lg:block' 
-    )}>
-      <EmptyState />
-    </div>
-  )
+    <>
+      <Layout>
+        <TopCards />
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-4 my-10">
+          <BarChart />
+          <Recents />
+        </div>
+      </Layout>
+    </>
+  );
 }
-
-export default Home;
