@@ -43,7 +43,7 @@ export default function Layout({ children }) {
                 <span className="hidden lg:ml-3 lg:block">Dashboard</span>
               </div>
             </Link>
-            <Link href="/admin-dashboard/messages">
+            {/* <Link href="/admin-dashboard/messages">
               <div
                 className={` p-3 rounded-lg flex mb-4 ${
                   pathname === "/admin-dashboard/messages"
@@ -54,11 +54,29 @@ export default function Layout({ children }) {
                 <HiChat size={20} />
                 <span className="hidden lg:ml-3 lg:block">Messages</span>
               </div>
-            </Link>
-            <Link href="/dashboard/messages">
-              <div className="bg-gray-100  p-3 rounded-lg flex mb-4">
+            </Link> */}
+            <Link href="/admin-dashboard/mentors">
+              <div
+                className={` p-3 rounded-lg flex mb-4 ${
+                  pathname === "/admin-dashboard/mentors"
+                    ? "bg-sky-500 text-white"
+                    : "bg-gray-100 "
+                }`}
+              >
                 <HiChat size={20} />
-                <span className="hidden lg:ml-3 lg:block">Others</span>
+                <span className="hidden lg:ml-3 lg:block">Mentors</span>
+              </div>
+            </Link>
+            <Link href="/admin-dashboard/assign-mentor">
+              <div
+                className={` p-3 rounded-lg flex mb-4 ${
+                  pathname === "/admin-dashboard/assign-mentor"
+                    ? "bg-sky-500 text-white"
+                    : "bg-gray-100 "
+                }`}
+              >
+                <HiChat size={20} />
+                <span className="hidden lg:ml-3 lg:block">Assign Mentor</span>
               </div>
             </Link>
           </div>
