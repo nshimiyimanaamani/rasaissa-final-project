@@ -1,7 +1,7 @@
 "use client";
 // components/DataTable.tsx
 import React, { useState, useRef } from "react";
-import { data } from "../Data/mentors";
+import { data } from "../Data/data";
 import {
   HiAcademicCap,
   HiChat,
@@ -10,8 +10,6 @@ import {
   HiHome,
   HiLibrary,
 } from "react-icons/hi";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
 
 const MentorTable: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -22,13 +20,6 @@ const MentorTable: React.FC = () => {
   };
   const closeModal = () => {
     setOpen(false);
-  };
-  const createPdf = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(16); // Set the font size for the title
-    doc.text("Mentors Report Table", 14, 10);
-    doc.autoTable({ html: "#mentorsTable" });
-    doc.save("mentors.pdf");
   };
   return (
     <>
@@ -200,37 +191,27 @@ const MentorTable: React.FC = () => {
               >
                 Add Mentor
               </button>
-              <button
-                type="button"
-                onClick={createPdf}
-                className="flex items-center justify-center text-white bg-gray-800  py-2 px-4 text-sm font-medium rounded-lg"
-              >
-                Print
-              </button>
             </div>
           </div>
           <div>
             <div className="overflow-x-auto">
-              <table
-                className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border"
-                id="mentorsTable"
-              >
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-4 py-3">
-                      FName
+                      Name
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      LName
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Email
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Tel
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Date
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
                       <span className="sr-only">Actions</span>
@@ -244,12 +225,12 @@ const MentorTable: React.FC = () => {
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
                       >
-                        {mentor.name.first}
+                        Apple iMac 27&#34;
                       </th>
-                      <td className="px-4 py-3">{mentor.name.last}</td>
-                      <td className="px-4 py-3">{mentor.email}</td>
-                      <td className="px-4 py-3">{mentor.tel}</td>
-                      <td className="px-4 py-3">{mentor.date}</td>
+                      <td className="px-4 py-3">PC</td>
+                      <td className="px-4 py-3">Apple</td>
+                      <td className="px-4 py-3">300</td>
+                      <td className="px-4 py-3">$2999</td>
                       <td className="px-4 py-3 flex items-center justify-end">
                         <button
                           id="apple-imac-27-dropdown-button"

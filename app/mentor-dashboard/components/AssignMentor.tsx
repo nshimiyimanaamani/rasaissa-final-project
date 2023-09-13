@@ -1,7 +1,7 @@
 "use client";
 // components/DataTable.tsx
 import React, { useState, useRef } from "react";
-import { data } from "../Data/mentors";
+import { data } from "../Data/data";
 import {
   HiAcademicCap,
   HiChat,
@@ -10,10 +10,8 @@ import {
   HiHome,
   HiLibrary,
 } from "react-icons/hi";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
 
-const MentorTable: React.FC = () => {
+const AssignMentor: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [isLoading, setisLoading] = useState(false);
   const cancelButtonRef = useRef(null);
@@ -23,27 +21,41 @@ const MentorTable: React.FC = () => {
   const closeModal = () => {
     setOpen(false);
   };
-  const createPdf = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(16); // Set the font size for the title
-    doc.text("Mentors Report Table", 14, 10);
-    doc.autoTable({ html: "#mentorsTable" });
-    doc.save("mentors.pdf");
-  };
   return (
     <>
       <div className="w-full col-span-1 relative lg:h-[80vh] h-[60vh] m-auto p-4 border rounded-lg bg-white overflow-scroll">
-        {/* <div>
-          <div className="flex justify-between">
-            <h1>Mentor</h1>
+        <div>
+          {/* <div className="flex justify-between">
+            <h1>Assign Mentor</h1>
             <button
               className="p-2 px-4 bg-sky-500 rounded-lg text-white"
               onClick={openModal}
             >
-              Add Mentor
+              Assign
             </button>
-          </div>
-        </div> */}
+          </div> */}
+          {/* <ul>
+            {data.map((order, id) => (
+              <li
+                key={id}
+                className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
+              >
+                <div className="bg-purple-100 rounded-lg p-3">
+                  <HiCog className="text-purple-800" />
+                </div>
+                <div className="pl-4">
+                  <p className="text-gray-800 font-bold">{order.name.first}</p>
+                  <p className="text-gray-400 text-sm">{order.name.last}</p>
+                </div>
+                <div>
+                  <p className="lg:flex md:hidden absolute text-danger right-6 text-sm text-red">
+                    Delete
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul> */}
+        </div>
         {/* modal */}
         {open && (
           <div>
@@ -51,7 +63,7 @@ const MentorTable: React.FC = () => {
               <div className="w-[600px]">
                 <div className="bg-white rounded-lg p-4">
                   <div className="flex justify-between font-bold">
-                    <p className="text-2xl">Add New Mentor</p>
+                    <p className="text-2xl">Assign Mentor</p>
                     <button onClick={closeModal}>X</button>
                   </div>
                   <hr className="my-4" />
@@ -198,39 +210,29 @@ const MentorTable: React.FC = () => {
                 onClick={openModal}
                 className="flex items-center justify-center text-white bg-sky-500 py-2 px-4 text-sm font-medium rounded-lg"
               >
-                Add Mentor
-              </button>
-              <button
-                type="button"
-                onClick={createPdf}
-                className="flex items-center justify-center text-white bg-gray-800  py-2 px-4 text-sm font-medium rounded-lg"
-              >
-                Print
+                Assign Mentor
               </button>
             </div>
           </div>
           <div>
             <div className="overflow-x-auto">
-              <table
-                className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border"
-                id="mentorsTable"
-              >
+              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-4 py-3">
-                      FName
+                      Name
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      LName
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Email
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Tel
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Date
+                      Uknown
                     </th>
                     <th scope="col" className="px-4 py-3">
                       <span className="sr-only">Actions</span>
@@ -244,12 +246,12 @@ const MentorTable: React.FC = () => {
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
                       >
-                        {mentor.name.first}
+                        Apple iMac 27&#34;
                       </th>
-                      <td className="px-4 py-3">{mentor.name.last}</td>
-                      <td className="px-4 py-3">{mentor.email}</td>
-                      <td className="px-4 py-3">{mentor.tel}</td>
-                      <td className="px-4 py-3">{mentor.date}</td>
+                      <td className="px-4 py-3">PC</td>
+                      <td className="px-4 py-3">Apple</td>
+                      <td className="px-4 py-3">300</td>
+                      <td className="px-4 py-3">$2999</td>
                       <td className="px-4 py-3 flex items-center justify-end">
                         <button
                           id="apple-imac-27-dropdown-button"
@@ -313,4 +315,4 @@ const MentorTable: React.FC = () => {
   );
 };
 
-export default MentorTable;
+export default AssignMentor;
