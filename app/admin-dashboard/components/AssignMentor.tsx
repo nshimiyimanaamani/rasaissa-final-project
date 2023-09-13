@@ -10,6 +10,8 @@ import {
   HiHome,
   HiLibrary,
 } from "react-icons/hi";
+import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 const AssignMentor: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -17,6 +19,13 @@ const AssignMentor: React.FC = () => {
   const cancelButtonRef = useRef(null);
   const openModal = () => {
     setOpen(true);
+  };
+  const createPdf = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16); // Set the font size for the title
+    doc.text("Mentors Report Table", 14, 10);
+    doc.autoTable({ html: "#assignTable" });
+    doc.save("assign.pdf");
   };
   const closeModal = () => {
     setOpen(false);
@@ -212,27 +221,37 @@ const AssignMentor: React.FC = () => {
               >
                 Assign Mentor
               </button>
+              <button
+                type="button"
+                onClick={createPdf}
+                className="flex items-center justify-center text-white bg-gray-800 py-2 px-4 text-sm font-medium rounded-lg"
+              >
+                Print
+              </button>
             </div>
           </div>
           <div>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border">
+              <table
+                className="w-full text-sm text-left text-gray-500 dark:text-gray-400 border"
+                id="assignTable"
+              >
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-4 py-3">
-                      Name
+                      Mentor Name
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Uknown
+                      Mentor Email
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Uknown
+                      Student Name
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Uknown
+                      Student Email
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Uknown
+                      Student Tel
                     </th>
                     <th scope="col" className="px-4 py-3">
                       <span className="sr-only">Actions</span>
@@ -246,12 +265,12 @@ const AssignMentor: React.FC = () => {
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
                       >
-                        Apple iMac 27&#34;
+                        Mentor MentorA
                       </th>
-                      <td className="px-4 py-3">PC</td>
-                      <td className="px-4 py-3">Apple</td>
-                      <td className="px-4 py-3">300</td>
-                      <td className="px-4 py-3">$2999</td>
+                      <td className="px-4 py-3">mentora@gmail.com</td>
+                      <td className="px-4 py-3">Student StudentA</td>
+                      <td className="px-4 py-3">studenta@gmail.com</td>
+                      <td className="px-4 py-3">07988888888</td>
                       <td className="px-4 py-3 flex items-center justify-end">
                         <button
                           id="apple-imac-27-dropdown-button"
