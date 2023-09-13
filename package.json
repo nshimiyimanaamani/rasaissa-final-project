@@ -27,12 +27,9 @@
     "date-fns": "^2.29.3",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
-<<<<<<< HEAD
+    "fs": "^0.0.1-security",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.6.0",
-=======
-    "fs": "^0.0.1-security",
->>>>>>> 3fb60e6 (added admin functionallity)
     "lodash": "^4.17.21",
     "next": "13.3.1",
     "next-auth": "^4.22.1",
@@ -61,6 +58,4 @@
     "@types/lodash": "^4.14.194",
     "prisma": "^4.13.0"
   }
-
-  
 }
