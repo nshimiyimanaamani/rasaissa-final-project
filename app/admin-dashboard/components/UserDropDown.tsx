@@ -1,3 +1,4 @@
+import { signOut } from "next-auth/react";
 import React, { useState } from "react";
 import { HiHand, HiMenu } from "react-icons/hi";
 import { HiPower } from "react-icons/hi2";
@@ -8,6 +9,11 @@ const UserDropdown = () => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  function handleSignOutClick(event:any) {
+    event.preventDefault(); // Prevent the default anchor click behavior
+    signOut(); // Call your signOut function here
+  }
 
   return (
     <div className="relative ml-3">
@@ -53,6 +59,7 @@ const UserDropdown = () => {
             className="block px-4 py-2 text-sm text-gray-700"
             role="menuitem"
             id="user-menu-item-2"
+            onClick={(e)=>handleSignOutClick(e)}
           >
             Sign out
           </a>

@@ -30,6 +30,8 @@ model User {
   accounts Account[]
   messages Message[]
   Student  Student?
+  studentAssignments Assigned[] @relation("StudentAssignments")
+  mentorAssignments  Assigned[] @relation("MentorAssignments")
 }
 
 model Student {
@@ -87,6 +89,17 @@ model Message {
   senderId String @db.ObjectId
   sender   User   @relation(fields: [senderId], references: [id], onDelete: Cascade)
 }
+
+model Assigned {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  studentId  String  @db.ObjectId
+  mentorId   String  @db.ObjectId
+  createdAt  DateTime @default(now())
+
+    student   User    @relation("StudentAssignments", fields: [studentId], references: [id])
+  mentor    User    @relation("MentorAssignments", fields: [mentorId], references: [id])
+}
+
 
 enum UserRole {
   STUDENT
