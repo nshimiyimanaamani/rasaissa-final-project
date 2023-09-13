@@ -1,19 +1,22 @@
 "use client";
 import Button from "@/app/components/Button";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import QuestionRow from "./QuestionRow";
 import ResultModal from "./ResultModal";
 import { quizQuestions } from "./data";
 
 const PerformanceTest = () => {
-  const { data: session, status } = useSession();
-
   const [questionsData, setQuestionsData] = useState(quizQuestions);
   const [score, setScore] = useState(0);
   const [canRevealAnswers, setCanRevealAnswers] = useState(false);
   const [areAnswersRevealed, setAreAnswersRevealed] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const isAllQuestionsAnswered =
+      questionsData.length > 0 && questionsData.every((question) => question.selectedAnswer);
+    if (isAllQuestionsAnswered) setCanRevealAnswers(true);
+  }, [questionsData]);
 
   const selectAnswer = (currentQuestion: string, selectedAnswer: string) => {
     setQuestionsData((prevState) =>
@@ -46,14 +49,10 @@ const PerformanceTest = () => {
     // if (score === questionsData.length) setIsGameWon(true);
   };
 
-  useEffect(() => {
-    const isAllQuestionsAnswered =
-      questionsData.length > 0 && questionsData.every((question) => question.selectedAnswer);
-    if (isAllQuestionsAnswered) setCanRevealAnswers(true);
-  }, [questionsData]);
-
   return (
     <section className="flex pb-20 md:pb-7 flex-col w-10/12 mx-auto mt-6 md:max-w-[1200px]">
+      <h1 className="text-2xl font-semibold">Performance test</h1>
+      <p className="mb-4">Answer all questions before checking your results</p>
       <>
         {questionsData.map((question, index) => {
           return (
