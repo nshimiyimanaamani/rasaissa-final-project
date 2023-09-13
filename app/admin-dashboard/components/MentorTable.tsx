@@ -13,10 +13,50 @@ import {
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-const MentorTable: React.FC = () => {
+const MentorTable: React.FC<MentorTableProps> = ( users) => {
   const [open, setOpen] = useState(false);
-  const [isLoading, setisLoading] = useState(false);
   const cancelButtonRef = useRef(null);
+  const [isLoading,setisLoading] = useState(false);
+  const [name, setName] = useState("");
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+
+  const handleSubmit = async () => {
+    const newUser = {
+      name,
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post("/api/mentors", newUser, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 200) {
+        // User created successfully, you can show a success message or perform any other actions
+        console.log("User created successfully");
+        // clear email state
+        setEmail("")
+        setPassword("")
+        setName('')
+        console.log(response.status);
+        // Close the modal
+        closeModal();
+      } else {
+        // Handle errors, display an error message, etc.
+        console.log(response.status);
+        console.error("Failed to create user");
+      }
+    } catch (error) {
+     
+      console.error("Error creating user", error);
+    }
+  };
+
+  
   const openModal = () => {
     setOpen(true);
   };
@@ -61,12 +101,12 @@ const MentorTable: React.FC = () => {
                         htmlFor="first-name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        First name
+                        Name
                       </label>
                       <div className="">
                         <input
                           type="text"
-                          name="first-name"
+                          name="name"
                           id="first-name"
                           autoComplete="given-name"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -165,7 +205,7 @@ const MentorTable: React.FC = () => {
                   <hr className="mt-5" />
                   <div className="my-5">
                     <div className="flex">
-                      <button className="p-2 px-5 bg-sky-500 rounded-lg text-white">
+                      <button className="p-2 px-5 bg-sky-500 rounded-lg text-white" onClick={handleSubmit}>
                         {isLoading ? "Loading..." : "Save"}
                       </button>
                       <button
@@ -238,8 +278,8 @@ const MentorTable: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((mentor, id) => (
-                    <tr className="border-b " key={id}>
+                  {users.users.map((user) => (
+                    <tr className="border-b " key={user.id}>
                       <th
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "

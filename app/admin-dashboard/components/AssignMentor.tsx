@@ -13,9 +13,17 @@ import {
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-const AssignMentor: React.FC = () => {
+interface AssignedMentorProps {
+  assigns : Assigned[];
+  mentors : User[];
+  students : User[];
+}
+const AssignMentor: React.FC <AssignedMentorProps>= ( {assigns, mentors, students} ) => {
   const [open, setOpen] = useState(false);
+  const [selectedMentor, setSelectedMentor] = useState<string | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
   const [isLoading, setisLoading] = useState(false);
+
   const cancelButtonRef = useRef(null);
   const openModal = () => {
     setOpen(true);
@@ -30,6 +38,36 @@ const AssignMentor: React.FC = () => {
   const closeModal = () => {
     setOpen(false);
   };
+
+  const handleSubmit = async () => {
+    try {
+      setisLoading(true);
+  
+      // Create an object with the assignment data to send to the API
+      const assignmentData = {
+        mentorId: selectedMentor,
+        studentId: selectedStudent,
+        // Add other assignment data here
+      };
+  
+      // Make a POST request to your API route
+      const response = await axios.post('/api/assign', assignmentData);
+  
+      // Handle the response (e.g., show success message, close modal, etc.)
+      console.log('Assignment submitted successfully!', response.data);
+  
+      // Reset the form and loading state
+      setSelectedMentor(null);
+      setSelectedStudent(null);
+      setisLoading(false);
+      closeModal();
+    } catch (error) {
+      // Handle errors (e.g., show error message)
+      console.error('Error submitting assignment:', error);
+      setisLoading(false);
+    }
+  };
+  
   return (
     <>
       <div className="w-full col-span-1 relative lg:h-[80vh] h-[60vh] m-auto p-4 border rounded-lg bg-white overflow-scroll">
@@ -82,16 +120,22 @@ const AssignMentor: React.FC = () => {
                         htmlFor="first-name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        First name
+                        Mentor
                       </label>
                       <div className="">
-                        <input
-                          type="text"
-                          name="first-name"
-                          id="first-name"
-                          autoComplete="given-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
+                      <select
+                        id="mentor-select"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        onChange={(e) => setSelectedMentor(e.target.value)}
+                        value={selectedMentor || ""}
+                      >
+                        <option value="">Select Mentor</option>
+                        {mentors.map((mentor) => (
+                          <option key={mentor.id} value={mentor.id}>
+                            {mentor.name}
+                          </option>
+                        ))}
+                      </select>
                       </div>
                     </div>
 
@@ -100,93 +144,29 @@ const AssignMentor: React.FC = () => {
                         htmlFor="last-name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Last name
+                        Student
                       </label>
                       <div className="">
-                        <input
-                          type="text"
-                          name="last-name"
-                          id="last-name"
-                          autoComplete="family-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="first-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
+                      <select
+                        id="mentor-select"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        onChange={(e) => setSelectedStudent(e.target.value)}
+                        value={selectedStudent || ""}
                       >
-                        First name
-                      </label>
-                      <div className="">
-                        <input
-                          type="text"
-                          name="first-name"
-                          id="first-name"
-                          autoComplete="given-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Last name
-                      </label>
-                      <div className="">
-                        <input
-                          type="text"
-                          name="last-name"
-                          id="last-name"
-                          autoComplete="family-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="first-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        First name
-                      </label>
-                      <div className="">
-                        <input
-                          type="text"
-                          name="first-name"
-                          id="first-name"
-                          autoComplete="given-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Last name
-                      </label>
-                      <div className="">
-                        <input
-                          type="text"
-                          name="last-name"
-                          id="last-name"
-                          autoComplete="family-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
+                        <option value="">Select Student</option>
+                        {students.map((student) => (
+                          <option key={student.id} value={student.id}>
+                            {student.name}
+                          </option>
+                        ))}
+                      </select>
                       </div>
                     </div>
                   </div>
                   <hr className="mt-5" />
                   <div className="my-5">
                     <div className="flex">
-                      <button className="p-2 px-5 bg-sky-500 rounded-lg text-white">
+                      <button className="p-2 px-5 bg-sky-500 rounded-lg text-white" onClick={handleSubmit}>
                         {isLoading ? "Loading..." : "Save"}
                       </button>
                       <button
@@ -259,8 +239,8 @@ const AssignMentor: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((mentor, id) => (
-                    <tr className="border-b " key={id}>
+                  {assigns.map((assign) => (
+                    <tr className="border-b " key={assign.id}>
                       <th
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
