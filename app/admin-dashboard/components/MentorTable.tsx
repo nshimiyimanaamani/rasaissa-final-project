@@ -12,7 +12,13 @@ import {
 } from "react-icons/hi";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { User } from ".prisma/client";
+import axios from "axios";
 
+
+interface MentorTableProps {
+  users: User[]
+} 
 const MentorTable: React.FC<MentorTableProps> = ( users) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
@@ -29,6 +35,7 @@ const [password, setPassword] = useState("");
     };
 
     try {
+      setisLoading(true);
       const response = await axios.post("/api/mentors", newUser, {
         headers: {
           "Content-Type": "application/json",
@@ -42,17 +49,19 @@ const [password, setPassword] = useState("");
         setEmail("")
         setPassword("")
         setName('')
-        console.log(response.status);
+        setisLoading(false);
         // Close the modal
         closeModal();
       } else {
         // Handle errors, display an error message, etc.
         console.log(response.status);
         console.error("Failed to create user");
+        setisLoading(false);
       }
     } catch (error) {
      
       console.error("Error creating user", error);
+      setisLoading(false);
     }
   };
 
@@ -108,6 +117,8 @@ const [password, setPassword] = useState("");
                           type="text"
                           name="name"
                           id="first-name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
                           autoComplete="given-name"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
@@ -119,12 +130,14 @@ const [password, setPassword] = useState("");
                         htmlFor="last-name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        Last name
+                         Email
                       </label>
                       <div className="">
                         <input
                           type="text"
-                          name="last-name"
+                          name="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                           id="last-name"
                           autoComplete="family-name"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -136,67 +149,16 @@ const [password, setPassword] = useState("");
                         htmlFor="first-name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                        First name
+                      Password
                       </label>
                       <div className="">
                         <input
                           type="text"
-                          name="first-name"
+                          name="password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                           id="first-name"
                           autoComplete="given-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Last name
-                      </label>
-                      <div className="">
-                        <input
-                          type="text"
-                          name="last-name"
-                          id="last-name"
-                          autoComplete="family-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="first-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        First name
-                      </label>
-                      <div className="">
-                        <input
-                          type="text"
-                          name="first-name"
-                          id="first-name"
-                          autoComplete="given-name"
-                          className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="sm:col-span-3">
-                      <label
-                        htmlFor="last-name"
-                        className="block text-sm font-medium leading-6 text-gray-900"
-                      >
-                        Last name
-                      </label>
-                      <div className="">
-                        <input
-                          type="text"
-                          name="last-name"
-                          id="last-name"
-                          autoComplete="family-name"
                           className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
                       </div>
@@ -206,7 +168,7 @@ const [password, setPassword] = useState("");
                   <div className="my-5">
                     <div className="flex">
                       <button className="p-2 px-5 bg-sky-500 rounded-lg text-white" onClick={handleSubmit}>
-                        {isLoading ? "Loading..." : "Save"}
+                      {isLoading ? "Loading..." : "Save"}
                       </button>
                       <button
                         className="p-2 px-4 border rounded-lg ml-4"
@@ -258,22 +220,13 @@ const [password, setPassword] = useState("");
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
                     <th scope="col" className="px-4 py-3">
-                      FName
+                      Name
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      LName
+                      Role
                     </th>
                     <th scope="col" className="px-4 py-3">
                       Email
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Tel
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Date
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      <span className="sr-only">Actions</span>
                     </th>
                   </tr>
                 </thead>
@@ -284,63 +237,11 @@ const [password, setPassword] = useState("");
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
                       >
-                        {mentor.name.first}
+                        {user.name}
                       </th>
-                      <td className="px-4 py-3">{mentor.name.last}</td>
-                      <td className="px-4 py-3">{mentor.email}</td>
-                      <td className="px-4 py-3">{mentor.tel}</td>
-                      <td className="px-4 py-3">{mentor.date}</td>
-                      <td className="px-4 py-3 flex items-center justify-end">
-                        <button
-                          id="apple-imac-27-dropdown-button"
-                          data-dropdown-toggle="apple-imac-27-dropdown"
-                          className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                          type="button"
-                        >
-                          <svg
-                            className="w-5 h-5"
-                            aria-hidden="true"
-                            fill="currentColor"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                          </svg>
-                        </button>
-                        <div
-                          id="apple-imac-27-dropdown"
-                          className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                        >
-                          <ul
-                            className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                            aria-labelledby="apple-imac-27-dropdown-button"
-                          >
-                            <li>
-                              <a
-                                href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                Show
-                              </a>
-                            </li>
-                            <li>
-                              <a
-                                href="#"
-                                className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                              >
-                                Edit
-                              </a>
-                            </li>
-                          </ul>
-                          <div className="py-1">
-                            <a
-                              href="#"
-                              className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                            >
-                              Delete
-                            </a>
-                          </div>
-                        </div>
-                      </td>
+                      <td className="px-4 py-3">{user.role[0]}</td>
+                      <td className="px-4 py-3">{user.email}</td>
+
                     </tr>
                   ))}
                 </tbody>
