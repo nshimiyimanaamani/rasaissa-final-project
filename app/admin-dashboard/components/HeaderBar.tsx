@@ -5,10 +5,16 @@ import { usePathname } from "next/navigation";
 import UserDropdown from "./UserDropDown";
 
 export default function HeaderBar({}) {
-  const pathname = usePathname()?.substring(1);
+  const admin = true;
+  let pathname = usePathname()?.substring(1);
   let trimmedPathname = "";
   if (pathname != null) {
-    trimmedPathname = pathname.length > 16 ? pathname.substring(16) : pathname;
+    if (!admin && pathname.length == 15) {
+      trimmedPathname = "mentor-dashboard";
+    } else {
+      trimmedPathname =
+        pathname.length > 16 ? pathname.substring(16) : pathname;
+    }
   }
   return (
     <>

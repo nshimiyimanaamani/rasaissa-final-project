@@ -1,7 +1,7 @@
 import React from "react";
-import MentorTable from "../components/MentorTable";
 import Layout from "../layouts/LayoutWithSidebar";
 import getMentors from "@/app/actions/getMentors";
+import StudentTable from "../components/StudentTable";
 
 export default async function MyApp({}) {
   const users = await getMentors();
@@ -9,7 +9,7 @@ export default async function MyApp({}) {
     <>
       <Layout>
         <div>
-          <MentorTable users={users} />
+          <StudentTable users={users} />
         </div>
       </Layout>
     </>

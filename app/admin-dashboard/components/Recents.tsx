@@ -18,7 +18,7 @@ export default function Recents({}) {
   const items = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   return (
     <>
-      <div className="w-full col-span-1 relative lg:h-[70vh] h-[50vh] m-auto border p-4 rounded-lg bg-white overflow-scroll">
+      <div className="w-full col-span-1 relative lg:h-[80vh] h-[50vh] m-auto border p-4 rounded-lg bg-white overflow-scroll">
         <h1 className="font-bold">Recent Activities</h1>
         <ul>
           {items.map((item, index) => (
