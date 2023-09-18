@@ -17,7 +17,7 @@ import UserDropdown from "../components/UserDropDown";
 
 export default function Layout({ children }) {
   const pathname = usePathname();
-  const admin = true;
+  const admin = false;
   return (
     <>
       <div className="flex">
@@ -117,6 +117,18 @@ export default function Layout({ children }) {
                 >
                   <HiChat size={20} />
                   <span className="hidden lg:ml-3 lg:block">Marks</span>
+                </div>
+              </Link>
+              <Link href="/admin-dashboard/quizlet">
+                <div
+                  className={` p-3 rounded-lg flex mb-4 ${
+                    pathname === "/admin-dashboard/quizlet"
+                      ? "bg-sky-500 text-white"
+                      : "bg-gray-100 "
+                  }`}
+                >
+                  <HiChat size={20} />
+                  <span className="hidden lg:ml-3 lg:block">Quizlet</span>
                 </div>
               </Link>
             </div>

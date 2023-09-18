@@ -23,6 +23,8 @@ const AuthForm = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
+      console.log("role", session);
+
       if (session.data.user?.name === "Admin") {
         const userData = { isAdmin: true };
         localStorage.setItem("userRole", JSON.stringify(userData));
