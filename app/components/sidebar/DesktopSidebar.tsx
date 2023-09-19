@@ -20,7 +20,11 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
 
   return (
     <>
-      <SettingsModal currentUser={currentUser} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <SettingsModal
+        currentUser={currentUser}
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
       <div
         className="
         hidden 
@@ -43,6 +47,8 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
           <ul role="list" className="flex flex-col items-center space-y-1">
             {routes.map((item) => {
               if (item.href === "/performance-test" && !isStudent) return null;
+              if (item.href === "/conversations" && !isStudent) return null;
+              if (item.href === "/users" && !isStudent) return null;
               return (
                 <DesktopItem
                   key={item.label}

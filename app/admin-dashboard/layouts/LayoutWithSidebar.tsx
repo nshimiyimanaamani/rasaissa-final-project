@@ -17,7 +17,7 @@ import UserDropdown from "../components/UserDropDown";
 
 export default function Layout({ children }) {
   const pathname = usePathname();
-  const admin = false;
+  const admin = true;
   return (
     <>
       <div className="flex">

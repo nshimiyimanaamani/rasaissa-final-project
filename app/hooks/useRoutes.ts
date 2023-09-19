@@ -2,7 +2,11 @@ import { signOut } from "next-auth/react";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { HiChat } from "react-icons/hi";
-import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
+import {
+  HiArrowLeftOnRectangle,
+  HiBookmarkSquare,
+  HiUsers,
+} from "react-icons/hi2";
 import { MdQuiz } from "react-icons/md";
 import useConversation from "./useConversation";
 
@@ -29,6 +33,24 @@ const useRoutes = () => {
         href: "/performance-test",
         icon: MdQuiz,
         active: pathname === "/performance-test",
+      },
+      {
+        label: "Students",
+        href: "/conversations/students",
+        icon: HiUsers,
+        active: pathname === "/conversations/students",
+      },
+      {
+        label: "Quizlet",
+        href: "/conversations/quizlet",
+        icon: MdQuiz,
+        active: pathname === "/conversations/quizlet",
+      },
+      {
+        label: "Marks",
+        href: "/conversations/marks",
+        icon: HiBookmarkSquare,
+        active: pathname === "/conversations/marks",
       },
       {
         label: "Logout",
