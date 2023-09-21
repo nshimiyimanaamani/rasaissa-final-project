@@ -15,17 +15,16 @@ import "jspdf-autotable";
 import { User } from ".prisma/client";
 import axios from "axios";
 
-
 interface MentorTableProps {
-  users: User[]
-} 
-const MentorTable: React.FC<MentorTableProps> = ( users) => {
+  users: User[];
+}
+const MentorTable: React.FC<MentorTableProps> = (users) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-  const [isLoading,setisLoading] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
   const [name, setName] = useState("");
-const [email, setEmail] = useState("");
-const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async () => {
     const newUser = {
@@ -46,9 +45,9 @@ const [password, setPassword] = useState("");
         // User created successfully, you can show a success message or perform any other actions
         console.log("User created successfully");
         // clear email state
-        setEmail("")
-        setPassword("")
-        setName('')
+        setEmail("");
+        setPassword("");
+        setName("");
         setisLoading(false);
         // Close the modal
         closeModal();
@@ -59,13 +58,11 @@ const [password, setPassword] = useState("");
         setisLoading(false);
       }
     } catch (error) {
-     
       console.error("Error creating user", error);
       setisLoading(false);
     }
   };
 
-  
   const openModal = () => {
     setOpen(true);
   };
@@ -74,9 +71,46 @@ const [password, setPassword] = useState("");
   };
   const createPdf = () => {
     const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const tablePadding = 10; // Padding within each cell
+    const tableMargin = { top: 105, left: 10, right: 10 };
+    const currentDate = new Date();
+    const formattedDate =
+      currentDate.toLocaleDateString() + " " + currentDate.toLocaleTimeString();
+    // Load the logo image
+    const logoImage = new Image();
+    logoImage.src =
+      "https://res.cloudinary.com/guazy/image/upload/v1695285863/1519897331315_isevqm.jpg";
+    doc.rect(0, 0, pageWidth, pageHeight);
+    doc.addImage(logoImage, "JPG", 70, 20, 50, 50);
+
+    doc.setFontSize(8);
+    doc.setFont("roman", "bolder");
+    doc.text(`Kigali,Rwanda`, 85, 80);
+    doc.text(`info@dms.rw`, 85, 84);
+
     doc.setFontSize(16); // Set the font size for the title
-    doc.text("Mentors Report Table", 14, 10);
-    doc.autoTable({ html: "#mentorsTable" });
+    doc.text("Mentors Report ", 70, 95);
+
+    doc.autoTable({
+      html: "#mentorsTable",
+      // startY: tableY,
+      margin: tableMargin, // Set the table margins
+      styles: {
+        // cellPadding: tablePadding, // Set cell padding
+        // Add other styles as needed
+      },
+    });
+    doc.setFontSize(10);
+    // doc.text(`Printed on: ${formattedDate}`, 10, 10);
+    const footerText = `Printed on: ${formattedDate}`;
+    const textWidth = doc.getStringUnitWidth(footerText) * 10; // Calculate text width
+    // const textX = (pageWidth - textWidth) / 2; // Center text horizontally
+    const textX = 10;
+    const textY = pageHeight - 10; // Position text at the bottom
+
+    doc.text(footerText, textX, textY);
     doc.save("mentors.pdf");
   };
   return (
@@ -130,7 +164,7 @@ const [password, setPassword] = useState("");
                         htmlFor="last-name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                         Email
+                        Email
                       </label>
                       <div className="">
                         <input
@@ -149,7 +183,7 @@ const [password, setPassword] = useState("");
                         htmlFor="first-name"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
-                      Password
+                        Password
                       </label>
                       <div className="">
                         <input
@@ -167,8 +201,11 @@ const [password, setPassword] = useState("");
                   <hr className="mt-5" />
                   <div className="my-5">
                     <div className="flex">
-                      <button className="p-2 px-5 bg-sky-500 rounded-lg text-white" onClick={handleSubmit}>
-                      {isLoading ? "Loading..." : "Save"}
+                      <button
+                        className="p-2 px-5 bg-sky-500 rounded-lg text-white"
+                        onClick={handleSubmit}
+                      >
+                        {isLoading ? "Loading..." : "Save"}
                       </button>
                       <button
                         className="p-2 px-4 border rounded-lg ml-4"
@@ -241,7 +278,6 @@ const [password, setPassword] = useState("");
                       </th>
                       <td className="px-4 py-3">{user.role[0]}</td>
                       <td className="px-4 py-3">{user.email}</td>
-
                     </tr>
                   ))}
                 </tbody>
