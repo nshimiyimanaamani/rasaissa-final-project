@@ -1,6 +1,6 @@
 import { FC } from "react";
-import Button from "../components/Button";
-import Modal from "../components/modals/Modal";
+import Button from "../../../components/Button";
+import Modal from "../../../components/modals/Modal";
 
 interface ResultModalProps {
   score: number;
@@ -30,7 +30,7 @@ const ResultModal: FC<ResultModalProps> = ({ score, isOpen, handleClose }) => {
               score < 3 ? "text-pink-700" : "text-green-600"
             }`}
           >
-            You scored <span className="font-bold tracking-wide">{score}/7</span>
+            You scored <span className="font-bold tracking-wide">{score}/4</span>
           </h4>
           <h3 className="text-center">
             This may mean that you have a more {score < 3 ? "negative" : "positive"} mindset

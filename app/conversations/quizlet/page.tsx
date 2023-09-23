@@ -2,14 +2,18 @@ import React from "react";
 import Layout from "../layout";
 import getMentors from "@/app/actions/getMentors";
 import QuizletTable from "../components/QuizletTable";
+import getQuizzesWithQuestionCount from "@/app/actions/create-quiz";
 
 export default async function MyApp({}) {
-  const users = await getMentors();
+
+  const quizData = await getQuizzesWithQuestionCount();
+  // get currentuserId
+  
+
   return (
     <>
-      {/* <Layout> */}
       <div>
-        <QuizletTable />
+        <QuizletTable  quizData={quizData}/>
       </div>
       {/* </Layout> */}
     </>

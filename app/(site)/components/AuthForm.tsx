@@ -26,8 +26,8 @@ const AuthForm = () => {
       console.log("role", session);
 
       if (session.data.user?.name === "Admin") {
-        const userData = { isAdmin: true };
-        localStorage.setItem("userRole", JSON.stringify(userData));
+        // const userData = { isAdmin: false };
+        // localStorage.setItem("userRole", JSON.stringify(userData));
         router.push("/admin-dashboard"); // Redirect to admin dashboard
       } else {
         router.push("/conversations"); // Redirect to conversations page

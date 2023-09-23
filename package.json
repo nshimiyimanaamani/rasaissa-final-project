@@ -31,10 +31,10 @@
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.6.0",
     "lodash": "^4.17.21",
-    "next": "13.3.1",
+    "next": "^13.5.2",
     "next-auth": "^4.22.1",
     "next-cloudinary": "^4.4.0",
-    "next-superjson-plugin": "^0.5.7",
+    "next-superjson-plugin": "^0.5.9",
     "postcss": "8.4.21",
     "pusher": "^5.1.2",
     "pusher-js": "^8.0.2",
@@ -50,12 +50,14 @@
     "superjson": "^1.12.3",
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4",
+    "uuid": "^9.0.1",
     "zustand": "^4.3.7"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "@types/bcrypt": "^5.0.0",
     "@types/lodash": "^4.14.194",
+    "@types/uuid": "^9.0.4",
     "prisma": "^4.13.0"
   }
 }

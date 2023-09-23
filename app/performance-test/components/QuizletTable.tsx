@@ -6,7 +6,7 @@ import axios from "axios";
 import Link from "next/link";
 
 type QuizData = {
-  id: number;
+  id: string;
   title: string;
   questionCount: number;
   createdAt: Date;
@@ -17,6 +17,7 @@ interface QuizTableProps {
 }
 
 const QuizletTable: React.FC<QuizTableProps> = ({ quizData }) => {
+  console.log(quizData)
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const [isLoading, setisLoading] = useState(false);
@@ -120,12 +121,6 @@ const QuizletTable: React.FC<QuizTableProps> = ({ quizData }) => {
             <h1 className="font-bold text-2xl">Quizlets</h1>
             <div className="w-full md:w-1/2"></div>
             <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-              <Link
-                href="/conversations/quizlet/create"
-                className="flex items-center justify-center text-white bg-sky-500  py-2 px-4 text-sm font-medium rounded-lg"
-              >
-                Create Quizlet
-              </Link>
             </div>
           </div>
           <div>
@@ -154,7 +149,8 @@ const QuizletTable: React.FC<QuizTableProps> = ({ quizData }) => {
                         scope="row"
                         className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
                       >
-                        {quiz.title}
+                        {/* Make the quiz title clickable */}
+                        <a href={`/performance-test/${quiz.id}`}>{quiz.title}</a>
                       </th>
                       <td className="px-4 py-3">{quiz.questionCount}</td>
                       <td className="px-4 py-3">{quiz.createdAt.toString()}</td>

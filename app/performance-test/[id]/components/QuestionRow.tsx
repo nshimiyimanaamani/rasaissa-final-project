@@ -1,27 +1,30 @@
 import { FC } from "react";
-import { QuizQuestion } from "./data";
 
-interface QuestionRowProps extends QuizQuestion {
-  selectAnswer: (title: string, answer: string) => void;
+interface Option {
+  text: string;
+  isCorrect: boolean;
+}
+
+interface QuestionRowProps {
+  question: string;
+  options: Option[];
+  selectedAnswer: string | null;
+  selectAnswer: (currentQuestion: string, selectedAnswer: string) => void;
   areAnswersRevealed: boolean;
 }
 
 const QuestionRow: FC<QuestionRowProps> = ({
   question,
-  choices,
-  negativeChoices,
-  positiveChoices,
+  options,
+  selectedAnswer,
   selectAnswer,
   areAnswersRevealed,
-  selectedAnswer,
 }) => {
-  const setButtonBackground = (currentAnswer: string) => {
+  const setButtonBackground = (currentAnswer: string, isCorrect: boolean) => {
     if (areAnswersRevealed) {
-      {
-        if (currentAnswer === selectedAnswer) {
-          if (positiveChoices.includes(currentAnswer)) return "bg-[#94D7A2]";
-          if (negativeChoices.includes(currentAnswer)) return "bg-[#F8BCBC]";
-        }
+      if (currentAnswer === selectedAnswer) {
+        if (isCorrect) return "bg-[#94D7A2]";
+        return "bg-[#F8BCBC]";
       }
     }
     if (currentAnswer === selectedAnswer) return "bg-[#D6DBF5]";
@@ -31,16 +34,17 @@ const QuestionRow: FC<QuestionRowProps> = ({
     <div className="text-[#293264]">
       <h1 className="text-xl font-semibold">{question}</h1>
       <div className="flex flex-col md:flex-row gap-10 mt-3 text-lg">
-        {choices.map((choice, index) => (
+        {options.map((choice, index) => (
           <button
             disabled={areAnswersRevealed}
             key={index}
             className={`px-8 py-1 border border-current rounded-lg hover:bg-slate-200 ${setButtonBackground(
-              choice
+              choice.text,
+              choice.isCorrect
             )}`}
-            onClick={() => selectAnswer(question, choice)}
+            onClick={() => selectAnswer(question, choice.text)}
           >
-            {choice}
+            {choice.text}
           </button>
         ))}
       </div>

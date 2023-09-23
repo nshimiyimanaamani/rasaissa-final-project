@@ -15,10 +15,16 @@ import "jspdf-autotable";
 import { User } from ".prisma/client";
 import axios from "axios";
 
-interface MentorTableProps {
-  // users: User[];
+type QuizResult = {
+  id: string,
+    userName: string | null;
+    quizTitle: string;
+    score: number;
 }
-const MarksTable: React.FC<MentorTableProps> = () => {
+interface MarksTableProps {
+  quizResults : QuizResult[]
+}
+const MarksTable: React.FC<MarksTableProps> = ({quizResults}) => {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const [isLoading, setisLoading] = useState(false);
@@ -257,37 +263,25 @@ const MarksTable: React.FC<MentorTableProps> = () => {
               >
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                   <tr>
+                  
                     <th scope="col" className="px-4 py-3">
-                      Student Id
-                    </th>
-
-                    <th scope="col" className="px-4 py-3">
-                      First Name
-                    </th>
-                    <th scope="col" className="px-4 py-3">
-                      Last Name
+                     Name
                     </th>
                     <th scope="col" className="px-4 py-3">
                       Quiz
                     </th>
                     <th scope="col" className="px-4 py-3">
-                      Marks
+                    Score
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {users.map((user) => (
-                    <tr className="border-b " key={user.id}>
-                      <th
-                        scope="row"
-                        className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap "
-                      >
-                        {user.id}
-                      </th>
-                      <td className="px-4 py-3">{user.name.first}</td>
-                      <td className="px-4 py-3">{user.name.last}</td>
-                      <td className="px-4 py-3">{user.method}</td>
-                      <td className="px-4 py-3">{user.total}</td>
+                  {quizResults.map((quizResult) => (
+
+                    <tr className="border-b " key={quizResult.id}>
+                      <td className="px-4 py-3">{quizResult.userName}</td>
+                      <td className="px-4 py-3">{quizResult.quizTitle}</td>
+                      <td className="px-4 py-3">{quizResult.score}</td>
                     </tr>
                   ))}
                 </tbody>
