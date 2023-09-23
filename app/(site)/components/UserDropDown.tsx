@@ -1,23 +1,21 @@
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { HiHand, HiMenu } from "react-icons/hi";
 import { HiPower } from "react-icons/hi2";
 
+
 const UserDropdown = () => {
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  function handleSignOutClick(event: any) {
-    event.preventDefault(); // Prevent the default anchor click behavior
-    signOut(); // Call your signOut function here
-    router.push("/");
+  async function handleSignOutClick(event: any) {
+    signOut()
   }
+
   return (
     <div className="relative ml-3">
       <div>

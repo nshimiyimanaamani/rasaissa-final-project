@@ -1,7 +1,7 @@
 import React from "react";
-import Layout from "../layout";
+import Layout from "../conversations/layout";
 import getMentors from "@/app/actions/getMentors";
-import QuizletTable from "../components/QuizletTable";
+import QuizletTable from "../conversations/components/QuizletTable";
 import getQuizzesWithQuestionCount from "@/app/actions/create-quiz";
 
 export default async function MyApp({}) {

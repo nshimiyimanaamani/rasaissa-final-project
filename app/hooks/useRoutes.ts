@@ -42,7 +42,7 @@ const useRoutes = () => {
       },
       {
         label: "Quizlet",
-        href: "/conversations/quizlet",
+        href: "/quizlet",
         icon: MdQuiz,
         active: pathname === "/conversations/quizlet",
       },

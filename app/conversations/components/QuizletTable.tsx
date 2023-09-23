@@ -121,7 +121,7 @@ const QuizletTable: React.FC<QuizTableProps> = ({ quizData }) => {
             <div className="w-full md:w-1/2"></div>
             <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
               <Link
-                href="/conversations/quizlet/create"
+                href="/quizlet/create"
                 className="flex items-center justify-center text-white bg-sky-500  py-2 px-4 text-sm font-medium rounded-lg"
               >
                 Create Quizlet

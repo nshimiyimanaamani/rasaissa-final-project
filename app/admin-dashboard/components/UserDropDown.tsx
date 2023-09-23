@@ -1,5 +1,7 @@
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
+import Link from "next/link";
+
 import { HiHand, HiMenu } from "react-icons/hi";
 import { HiPower } from "react-icons/hi2";
 
@@ -10,9 +12,11 @@ const UserDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  function handleSignOutClick(event:any) {
-    event.preventDefault(); // Prevent the default anchor click behavior
-    signOut(); // Call your signOut function here
+  async function handleSignOutClick(event: any) {
+   
+    signOut()
+    localStorage.clear()
+    console.log(signOut)
   }
 
   return (
@@ -54,15 +58,15 @@ const UserDropdown = () => {
           >
             Settings
           </a>
-          <a
-            href="#"
+          <Link
+            href="/"
             className="block px-4 py-2 text-sm text-gray-700"
             role="menuitem"
             id="user-menu-item-2"
-            onClick={(e)=>handleSignOutClick(e)}
+            onClick={handleSignOutClick}
           >
             Sign out
-          </a>
+          </Link>
         </div>
       )}
     </div>

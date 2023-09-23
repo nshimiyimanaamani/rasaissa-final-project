@@ -53,7 +53,7 @@ const DesktopSidebar: React.FC<DesktopSidebarProps> = ({ currentUser }) => {
                 return null;
               if (item.href === "/conversations/students" && isStudent)
                 return null;
-              if (item.href === "/conversations/quizlet" && isStudent)
+              if (item.href === "/quizlet" && isStudent)
                 return null;
               return (
                 <DesktopItem
